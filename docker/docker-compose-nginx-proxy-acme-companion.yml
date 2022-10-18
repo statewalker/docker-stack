@@ -1,0 +1,21 @@
+version: '3.7'
+networks:
+  internal-network:
+    name: ${CONTEXT_NAME}_network
+services:
+  nginx-proxy-acme-companion:
+    container_name: ${CONTEXT_NAME}_nginx-proxy-acme-companion
+    image: nginxproxy/acme-companion
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - $CONTEXT_DIR/data-nginx-proxy/certs:/etc/nginx/certs:rw
+      - $CONTEXT_DIR/data-nginx-proxy/vhost.d:/etc/nginx/vhost.d:rw
+      - $CONTEXT_DIR/data-nginx-proxy/html:/usr/share/nginx/html:rw
+    environment:
+      - DEFAULT_EMAIL=${CONTEXT_EMAIL}
+      - NGINX_PROXY_CONTAINER=${CONTEXT_NAME}_nginx-proxy
+    networks:
+      - internal-network
+    depends_on:
+      - nginx-proxy

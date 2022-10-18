@@ -1,0 +1,43 @@
+version: '3.7'
+networks:
+  internal-network:
+    name: ${CONTEXT_NAME}_network
+services:
+  postgres:
+    container_name: ${CONTEXT_NAME}_postgres
+    image: supabase/postgres:14.1.0
+    restart: unless-stopped
+    volumes:
+      - $CONTEXT_DIR/config-pg/init:/docker-entrypoint-initdb.d
+      - $CONTEXT_DIR/config-pg/init-dev/data.sql:/docker-entrypoint-initdb.d/data.sql
+      - $CONTEXT_DIR/data-pg:/db/data:rw
+      - $CONTEXT_DIR/dump-pg:/db/dump:rw
+    ports:
+      - "$POSTGRES_PORT:5432"
+    environment:
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+      - POSTGRES_DB=$POSTGRES_DB
+      - PGDATA=/db/data
+    networks:
+      - internal-network
+    healthcheck:
+        test: ["CMD", "pg_isready", "-U", $POSTGRES_USER, "-d", $POSTGRES_DB]
+        interval: 5s
+        timeout: 5s
+        retries: 5
+  pgadmin:
+    container_name: ${CONTEXT_NAME}_pgadmin
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    volumes:
+      - $CONTEXT_DIR/data-pgadmin:/var/lib/pgadmin:rw
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=$PGADMIN_USER
+      - PGADMIN_DEFAULT_PASSWORD=$PGADMIN_PASSWORD
+      - VIRTUAL_HOST=$PGADMIN_HOST
+      - LETSENCRYPT_HOST=$PGADMIN_HOST
+    depends_on:
+      - postgres
+    networks:
+      - internal-network

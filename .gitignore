@@ -1,0 +1,6 @@
+.env
+context-*
+tmp*
+data-*
+georito-io-server-sandbox
+sandbox-socket
