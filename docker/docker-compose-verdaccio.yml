@@ -1,0 +1,19 @@
+version: '3.1'
+
+services:
+  verdaccio:
+    image: verdaccio/verdaccio
+    container_name: "verdaccio"
+    environment:
+      - NODE_ENV=production
+      - VERDACCIO_PORT=$VERDACCIO_PORT
+    volumes:
+      - "$CONTEXT_DIR/verdaccio/storage:/verdaccio/storage"
+      - "$CONTEXT_DIR/verdaccio/config:/verdaccio/conf"
+      - "$CONTEXT_DIR/verdaccio/plugins:/verdaccio/plugins" 
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.verdaccio.entrypoints=web"
+      - "traefik.http.routers.verdaccio.rule=Host(`$VERDACCIO_HOST`)"
+      - "traefik.http.services.verdaccio.loadbalancer.server.port=$VERDACCIO_PORT"
+
