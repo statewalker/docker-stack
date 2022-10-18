@@ -28,6 +28,7 @@ services:
         retries: 5
   pgadmin:
     container_name: ${CONTEXT_NAME}_pgadmin
+    #build: dockerfile.pgadmin
     image: dpage/pgadmin4
     restart: unless-stopped
     volumes:
@@ -41,3 +42,4 @@ services:
       - postgres
     networks:
       - internal-network
+    command: "chown -R 5050:5050 /var/lib/pgadmin && /entrypoint.sh"

@@ -25,9 +25,9 @@ sudo sh -c "cat > ${CONTEXT_DIR}/data-pgadmin/config.json" <<EOT
   }
 }
 EOT
-docker exec -it "${CONTEXT_NAME}-pgadmin" sh -c "chown -R pgadmin:pgadmin /var/lib/pgadmin"
-docker exec -it "${CONTEXT_NAME}-pgadmin" sh -c "ls -la /var/lib/pgadmin"
-docker exec -it "${CONTEXT_NAME}-pgadmin" sh -c "python3 ./setup.py --user '${PGADMIN_USER}' --load-servers /var/lib/pgadmin/config.json"
+#docker exec -it "${CONTEXT_NAME}_pgadmin" sh -c "chown -R 5050:5050 /var/lib/pgadmin"
+#docker exec -it "${CONTEXT_NAME}_pgadmin" sh -c "ls -la /var/lib/pgadmin"
+docker exec -it "${CONTEXT_NAME}_pgadmin" sh -c "python3 ./setup.py --user '${PGADMIN_USER}' --load-servers /var/lib/pgadmin/config.json"
 
 echo "Done."
 

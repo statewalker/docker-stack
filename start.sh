@@ -13,6 +13,4 @@ docker-compose \
   --project-directory "$dir" \
   -f "$dir/docker/docker-compose-nginx-proxy.yml" \
   -f "$dir/docker/docker-compose-postgres.yml" \
-  up -d
-
-"$dir/check.sh"
+  up
