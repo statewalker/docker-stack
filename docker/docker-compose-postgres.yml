@@ -28,8 +28,10 @@ services:
         retries: 5
   pgadmin:
     container_name: ${CONTEXT_NAME}_pgadmin
-    #build: dockerfile.pgadmin
-    image: dpage/pgadmin4
+    build:
+      context: docker
+      dockerfile: Dockerfile.pgadmin
+    # image: dpage/pgadmin4
     restart: unless-stopped
     volumes:
       - $CONTEXT_DIR/data-pgadmin:/var/lib/pgadmin:rw
@@ -40,14 +42,18 @@ services:
       - postgres
     networks:
       - internal-network
-    command: "chown -R 5050:5050 /var/lib/pgadmin && /entrypoint.sh"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.pgadmin.entrypoints=web"
       - "traefik.http.routers.pgadmin.rule=Host(`$PGADMIN_HOST`)"
-     # - "traefik.http.middlewares.pgadmin-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.pgadmin.middlewares=pgadmin-https-redirect"
-      - "traefik.http.routers.pgadmin-secure.entrypoints=https"
-      - "traefik.http.routers.pgadmin-secure.rule=Host(`$PGADMIN_HOST`)"
-      - "traefik.http.routers.pgadmin-secure.tls=true"
-      - "traefik.http.routers.pgadmin-secure.tls.certresolver=lets-encr"
+      # - "traefik.http.services.pgadmin.loadbalancer.server.port=$PGADMIN_PORT"
+
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.pgadmin.entrypoints=web"
+    #   - "traefik.http.routers.pgadmin.rule=Host(`$PGADMIN_HOST`)"
+    #  # - "traefik.http.middlewares.pgadmin-https-redirect.redirectscheme.scheme=https"
+    #   - "traefik.http.routers.pgadmin.middlewares=pgadmin-https-redirect"
+    #   - "traefik.http.routers.pgadmin-secure.entrypoints=https"
+    #   - "traefik.http.routers.pgadmin-secure.rule=Host(`$PGADMIN_HOST`)"
+    #   - "traefik.http.routers.pgadmin-secure.tls=true"
+    #   - "traefik.http.routers.pgadmin-secure.tls.certresolver=lets-encr"

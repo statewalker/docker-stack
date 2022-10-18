@@ -1,3 +1,0 @@
-FROM dpage/pgadmin4 as base
-RUN  chown -R 5050:5050 /var/lib/pgadmin
-RUN 

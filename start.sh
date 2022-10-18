@@ -13,4 +13,6 @@ docker-compose \
   --project-directory "$dir" \
   -f "$dir/docker/docker-compose-traefik.yml" \
   -f "$dir/docker/docker-compose-postgres.yml" \
+  -f "$dir/docker/docker-compose-verdaccio.yml" \
+  -f "$dir/docker/docker-compose-gitea.yml" \
   up

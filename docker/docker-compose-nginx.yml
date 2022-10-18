@@ -1,0 +1,17 @@
+version: '3.7'
+networks:
+  internal-network:
+    name: ${CONTEXT_NAME}-network
+services:
+  nginx:
+    container_name: ${CONTEXT_NAME}-nginx
+    image: nginx
+    expose:
+      - 80
+    volumes:
+      - $MAIN_DIR:/usr/share/nginx/html:ro
+    networks:
+      - internal-network
+    environment:
+      - VIRTUAL_HOST=$MAIN_HOST
+      - LETSENCRYPT_HOST=$MAIN_HOST

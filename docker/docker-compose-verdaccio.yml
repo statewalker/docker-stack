@@ -1,19 +1,22 @@
-version: '3.1'
-
+version: '3.7'
+networks:
+  internal-network:
+    name: ${CONTEXT_NAME}_network
 services:
   verdaccio:
     image: verdaccio/verdaccio
-    container_name: "verdaccio"
+    container_name: ${CONTEXT_NAME}_verdaccio
     environment:
       - NODE_ENV=production
-      - VERDACCIO_PORT=$VERDACCIO_PORT
+      - VERDACCIO_PORT=4873
     volumes:
-      - "$CONTEXT_DIR/verdaccio/storage:/verdaccio/storage"
-      - "$CONTEXT_DIR/verdaccio/config:/verdaccio/conf"
-      - "$CONTEXT_DIR/verdaccio/plugins:/verdaccio/plugins" 
+      - "$CONTEXT_DIR/data-verdaccio/storage:/verdaccio/storage"
+      # - "$CONTEXT_DIR/data-verdaccio/config:/verdaccio/conf"
+      - "$CONTEXT_DIR/data-verdaccio/plugins:/verdaccio/plugins" 
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.verdaccio.entrypoints=web"
       - "traefik.http.routers.verdaccio.rule=Host(`$VERDACCIO_HOST`)"
-      - "traefik.http.services.verdaccio.loadbalancer.server.port=$VERDACCIO_PORT"
-
+      - "traefik.http.services.verdaccio.loadbalancer.server.port=4873"
+    networks:
+      - internal-network

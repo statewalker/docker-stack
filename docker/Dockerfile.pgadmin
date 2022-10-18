@@ -1,0 +1,9 @@
+FROM dpage/pgadmin4
+USER root
+RUN printf "#!/bin/sh\n\
+chown -R pgadmin:pgadmin /var/lib/pgadmin\n\
+echo \$PGADMIN_USER\n\
+sudo -u pgadmin -E /entrypoint.sh\n\
+" >> /start.sh \
+  && chmod +x /start.sh
+ENTRYPOINT [ "/start.sh" ]
