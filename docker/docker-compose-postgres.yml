@@ -36,10 +36,12 @@ services:
     environment:
       - PGADMIN_DEFAULT_EMAIL=$PGADMIN_USER
       - PGADMIN_DEFAULT_PASSWORD=$PGADMIN_PASSWORD
-      - VIRTUAL_HOST=$PGADMIN_HOST
-      - LETSENCRYPT_HOST=$PGADMIN_HOST
     depends_on:
       - postgres
     networks:
       - internal-network
     command: "chown -R 5050:5050 /var/lib/pgadmin && /entrypoint.sh"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pgadmin.entrypoints=web"
+      - "traefik.http.routers.pgadmin.rule=Host(`$PGADMIN_HOST`)"
