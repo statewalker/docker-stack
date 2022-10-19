@@ -15,4 +15,5 @@ docker-compose \
   -f "$dir/docker/docker-compose-postgres.yml" \
   -f "$dir/docker/docker-compose-verdaccio.yml" \
   -f "$dir/docker/docker-compose-gitea.yml" \
+  -f "$dir/docker/docker-compose-CI.yml" \
   up

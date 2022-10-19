@@ -27,10 +27,7 @@ echo "-------------------"
 echo "PGAdmin: prepare data folder and change the owner..."
 if [ ! -d "${CONTEXT_DIR}/data-pgadmin" ]; then
   mkdir -p "${CONTEXT_DIR}/data-pgadmin"
-  mkdir -p "${CONTEXT_DIR}/data-pgadmin/azurecredentialcache"
-  mkdir -p "${CONTEXT_DIR}/data-pgadmin/sessions"
-  mkdir -p "${CONTEXT_DIR}/data-pgadmin/storage"
-  sudo chown -R 5050:5050 "${CONTEXT_DIR}/data-pgadmin"
+  sudo chmod 777 "${CONTEXT_DIR}/data-pgadmin"
 fi
 echo "Done."
 
