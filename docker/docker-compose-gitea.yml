@@ -16,6 +16,8 @@ services:
       - "$GITEA_SSH_PORT:22"
     volumes:
       - "$CONTEXT_DIR/data-gitea:/data"
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.gitea.entrypoints=web"
