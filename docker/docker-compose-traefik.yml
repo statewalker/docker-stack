@@ -5,7 +5,7 @@ networks:
 services:
   reverse-proxy:
     image: traefik:v2.4
-    container_name: "traefik"
+    container_name: "${CONTEXT_NAME}_traefik"
     command:
       - "--api.insecure=true"
       - "--api.dashboard=true"
